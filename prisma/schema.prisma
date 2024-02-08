@@ -11,5 +11,12 @@ datasource db {
 }
 
 model Task {
-  id String @id @unique @default(cuid())
+  id          String   @id @unique @default(cuid())
+  name        String
+  isComplete  Boolean  @default(false)
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @updatedAt
+
+  @@index([id])
+  @@map("tasks")
 }
