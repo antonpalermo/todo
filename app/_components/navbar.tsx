@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 
 import options from "@/app/api/auth/options";
 import { Button } from "@/components/ui/button";
+import { CreateDialogTrigger } from "./create-dialog";
 
 export default async function Navbar() {
   const session = await getServerSession(options);
@@ -15,7 +16,7 @@ export default async function Navbar() {
           </h1>
           <p className="text-slate-500">Currently here are your open tasks.</p>
         </div>
-        <Button>Create</Button>
+        <CreateDialogTrigger />
       </div>
     </nav>
   );

@@ -1,19 +1,31 @@
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
+import CreateDialog from "@/app/_components/create-dialog";
+import { Fragment, ReactNode, createContext, useEffect, useState } from "react";
 
-export default function ModalProvider() {
-  const [mounted, isMounted] = useState<boolean>(false);
+interface IModalProviderProps {
+  children: ReactNode;
+}
 
-  useEffect(() => {
-    isMounted(true)
-  }, []);
+interface IModalContextProviderProps {
+  isOpen: boolean;
+  toggle: () => void;
+}
 
-  if (!mounted) {
-    return null
+export const ModalContext = createContext<IModalContextProviderProps | null>(
+  null
+);
+
+export default function ModalProvider({ children }: IModalProviderProps) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  function toggle() {
+    return setIsOpen(prev => !prev);
   }
 
-  return <Fragment>
-    
-  </Fragment>
+  return (
+    <ModalContext.Provider value={{ isOpen, toggle }}>
+      {children}
+    </ModalContext.Provider>
+  );
 }

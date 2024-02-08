@@ -8,6 +8,8 @@ import Navbar from "@/app/_components/navbar";
 import SessionProvider from "@/components/providers/session";
 
 import options from "@/app/api/auth/options";
+import ModalProvider from "@/components/providers/modal";
+import CreateDialog from "./_components/create-dialog";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,10 +28,14 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <SessionProvider session={session}>
-        <body className={inter.className}>
-          <Navbar />
-          {children}
-        </body>
+        <ModalProvider>
+          <body className={inter.className}>
+            <Navbar />
+            <CreateDialog />
+
+            {children}
+          </body>
+        </ModalProvider>
       </SessionProvider>
     </html>
   );
