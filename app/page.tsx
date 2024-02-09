@@ -7,7 +7,7 @@ export default async function Home() {
   return (
     <main className="max-w-5xl mx-auto space-y-2">
       {tasks.map(task => (
-        <TaskCard key={task.id} name={task.name} />
+        <TaskCard key={task.id} task={task} />
       ))}
     </main>
   );
