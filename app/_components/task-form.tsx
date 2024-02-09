@@ -17,6 +17,8 @@ import { Button } from "@/components/ui/button";
 
 import useModal from "@/lib/hooks/useModal";
 import { useToast } from "@/components/ui/use-toast";
+import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
 
 interface ITask {
   name: string;
@@ -25,6 +27,8 @@ interface ITask {
 export default function TaskForm() {
   const { toast } = useToast();
   const { toggle } = useModal();
+
+  const router = useRouter();
   const form = useForm<ITask>({ defaultValues: { name: "" } });
 
   async function submit(value: ITask) {
@@ -34,6 +38,7 @@ export default function TaskForm() {
         title: "Task successfully created."
       });
       toggle();
+      router.refresh();
     } catch (error) {
       if (error instanceof AxiosError) {
         const errors = error.response?.data.errors;
