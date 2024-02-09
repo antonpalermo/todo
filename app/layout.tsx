@@ -10,6 +10,7 @@ import SessionProvider from "@/components/providers/session";
 import options from "@/app/api/auth/options";
 import ModalProvider from "@/components/providers/modal";
 import CreateDialog from "./_components/create-dialog";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,6 +35,7 @@ export default async function RootLayout({
             <CreateDialog />
 
             {children}
+            <Toaster />
           </body>
         </ModalProvider>
       </SessionProvider>

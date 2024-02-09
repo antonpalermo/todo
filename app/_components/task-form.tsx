@@ -1,6 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import axios, { AxiosError } from "axios";
+import { useForm } from "react-hook-form";
+
 import {
   Form,
   FormControl,
@@ -11,19 +13,33 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
 import useModal from "@/lib/hooks/useModal";
-import { useForm } from "react-hook-form";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ITask {
   name: string;
 }
 
 export default function TaskForm() {
+  const { toast } = useToast();
   const { toggle } = useModal();
   const form = useForm<ITask>({ defaultValues: { name: "" } });
 
   async function submit(value: ITask) {
-    console.log(value);
+    try {
+      await axios.post("/api/tasks/create", value);
+      toast({
+        title: "Task successfully created."
+      });
+      toggle();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const errors = error.response?.data.errors;
+        errors.map((e: any) => form.setError(e.field, { message: e.message }));
+      }
+    }
   }
 
   return (

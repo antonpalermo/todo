@@ -8,7 +8,12 @@ import errors from "@/lib/errors";
 import options from "@/app/api/auth/options";
 
 const schema = z.object({
-  name: z.string()
+  name: z
+    .string()
+    .refine(data => data.trim() !== "", { message: "Task name is required." })
+    .refine(data => data.length >= 3 || data.trim() === "", {
+      message: "Task name must be at least 3 characters long."
+    })
 });
 
 export async function POST(req: NextRequest) {
