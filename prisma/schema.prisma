@@ -13,6 +13,7 @@ datasource db {
 model Task {
   id          String   @id @unique @default(cuid())
   name        String
+  owner       String
   isComplete  Boolean  @default(false)
   dateCreated DateTime @default(now())
   dateUpdated DateTime @updatedAt

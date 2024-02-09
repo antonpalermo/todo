@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
   try {
     await prisma.task.create({
-      data: { name: body.data.name }
+      data: { name: body.data.name, owner: session.user?.email! }
     });
 
     return NextResponse.json(
