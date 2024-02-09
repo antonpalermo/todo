@@ -9,6 +9,7 @@ import {
   DialogDescription,
   DialogTitle
 } from "@/components/ui/dialog";
+import TaskForm from "./task-form";
 
 export function CreateDialogTrigger() {
   const { toggle } = useModal();
@@ -27,7 +28,7 @@ export default function CreateDialog() {
             Ready for another one? Come on, let's do this!
           </DialogDescription>
         </DialogHeader>
-        <div>sample</div>
+        <TaskForm />
       </DialogContent>
     </Dialog>
   );
