@@ -10,7 +10,7 @@ import {
   DialogTitle
 } from "@/components/ui/dialog";
 
-import CreateForm from "@/app/_components/tasks/form";
+import CreateForm from "@/app/_components/tasks/create-form";
 // import TaskForm from "./task-form";
 
 export function CreateDialogTrigger() {

@@ -53,3 +53,27 @@ export async function createTask(
     throw new Error("Unable to create task.");
   }
 }
+
+export async function deleteTask(prevState: any, formData: FormData) {
+  const session = await getServerSession(options);
+
+  if (!session) {
+    throw new Error(errors.message.UNAUTHORIZED);
+  }
+
+  try {
+    await prisma.task.delete({
+      where: {
+        id: formData.get("id") as string,
+        AND: {
+          owner: session.user?.email!
+        }
+      }
+    });
+
+    revalidatePath("/");
+    return { message: "Unable to delete task." };
+  } catch (error) {
+    throw new Error("Unable to delete task.");
+  }
+}
