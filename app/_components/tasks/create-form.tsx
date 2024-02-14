@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
-import { createTask, TaskStateAction } from "@/lib/actions/task";
+import { createTask } from "@/lib/actions/task";
 
 function TaskFormSubmitButton() {
   const { pending } = useFormStatus();

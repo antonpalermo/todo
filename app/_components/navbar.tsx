@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
 
+import { CreateDialogTrigger } from "@/app/_components/create-dialog";
+
 import options from "@/app/api/auth/options";
-import { Button } from "@/components/ui/button";
-import { CreateDialogTrigger } from "./create-dialog";
 
 export default async function Navbar() {
   const session = await getServerSession(options);

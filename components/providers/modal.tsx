@@ -1,7 +1,6 @@
 "use client";
 
-import CreateDialog from "@/app/_components/create-dialog";
-import { Fragment, ReactNode, createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 
 interface IModalProviderProps {
   children: ReactNode;

@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,7 +16,6 @@ import { Button } from "@/components/ui/button";
 
 import useModal from "@/lib/hooks/useModal";
 import { useToast } from "@/components/ui/use-toast";
-import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 
 interface ITask {
