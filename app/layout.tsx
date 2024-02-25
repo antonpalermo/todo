@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { getServerSession } from "next-auth";
 
-import Navbar from "@/app/_components/navbar";
+import Navbar from "@/components/navbar";
 import SessionProvider from "@/components/providers/session";
 
 import options from "@/app/api/auth/options";
@@ -31,11 +31,9 @@ export default async function RootLayout({
       <SessionProvider session={session}>
         <ModalProvider>
           <body className={inter.className}>
-            <Navbar />
-            <CreateDialog />
-
-            {children}
             <Toaster />
+            <Navbar />
+            {children}
           </body>
         </ModalProvider>
       </SessionProvider>
