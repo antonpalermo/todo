@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import prisma from "@/lib/prisma";
 import options from "@/app/api/auth/options";
 
+import Task from "@/components/tasks/task";
+
 export default async function Home() {
   const session = await getServerSession(options);
   const name = session?.user?.name?.split(" ")[0];
@@ -17,6 +19,11 @@ export default async function Home() {
           <p className="text-slate-500">
             Currently there are {tasks.length} task opened
           </p>
+        </div>
+        <div>
+          {tasks.map(task => (
+            <Task key={task.id} task={task} />
+          ))}
         </div>
       </div>
     </main>

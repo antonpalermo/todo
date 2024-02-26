@@ -2,15 +2,14 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 import { Inter } from "next/font/google";
+import { Toaster } from "@/components/ui/toaster";
 import { getServerSession } from "next-auth";
 
 import Navbar from "@/components/navbar";
 import SessionProvider from "@/components/providers/session";
+import TaskCreateDialog from "@/components/tasks/create-dialog";
 
 import options from "@/app/api/auth/options";
-import ModalProvider from "@/components/providers/modal";
-import CreateDialog from "./_components/create-dialog";
-import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,13 +28,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <SessionProvider session={session}>
-        <ModalProvider>
-          <body className={inter.className}>
-            <Toaster />
-            <Navbar />
-            {children}
-          </body>
-        </ModalProvider>
+        <body className={inter.className}>
+          <Toaster />
+          <Navbar />
+          <TaskCreateDialog />
+          {children}
+        </body>
       </SessionProvider>
     </html>
   );
