@@ -28,10 +28,16 @@ export default function TaskCreateForm() {
 
   async function onSubmit(data: Task) {
     const request = await fetch("/api/tasks", {
-      method: "POST"
+      method: "POST",
+      body: JSON.stringify(data)
     });
 
     const response = await request.json();
+
+    if (request.status === 405) {
+      console.log(response);
+    }
+
     console.log(response);
 
     toggle(); // toggle modal state to close it.
