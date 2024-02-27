@@ -1,6 +1,5 @@
 "use client";
 
-import CreateForm from "@/app/_components/tasks/create-form";
 import {
   Dialog,
   DialogTitle,
@@ -8,8 +7,9 @@ import {
   DialogContent,
   DialogDescription
 } from "@/components/ui/dialog";
-
 import { modalStore } from "@/lib/stores/modal";
+
+import TaskCreateForm from "@/components/tasks/create-form";
 
 export default function TaskCreateDialog() {
   const { isOpen, toggle } = modalStore(state => state);
@@ -23,7 +23,7 @@ export default function TaskCreateDialog() {
             Ready for another one? Come on, let's do this!
           </DialogDescription>
         </DialogHeader>
-        <CreateForm />
+        <TaskCreateForm />
       </DialogContent>
     </Dialog>
   );
