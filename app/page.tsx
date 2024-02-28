@@ -20,7 +20,7 @@ export default async function Home() {
             Currently there are {tasks.length} task opened
           </p>
         </div>
-        <div>
+        <div className="space-y-3">
           {tasks.map(task => (
             <Task key={task.id} task={task} />
           ))}
