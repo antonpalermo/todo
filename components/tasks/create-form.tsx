@@ -34,13 +34,14 @@ export default function TaskCreateForm() {
 
     const response = await request.json();
 
-    if (request.status === 405) {
-      console.log(response);
+    if (request.status === 400) {
+      response.errors.map((error: any) => {
+        console.log(error);
+        form.setError(error.name, { message: error.message });
+      });
+
+      return;
     }
-
-    console.log(response);
-
-    toggle(); // toggle modal state to close it.
   }
 
   return (
