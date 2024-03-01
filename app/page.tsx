@@ -4,12 +4,25 @@ import prisma from "@/lib/prisma";
 import options from "@/app/api/auth/options";
 
 import Task from "@/components/tasks/task";
+import { Task as _Task } from "@prisma/client";
+
+async function getAvailableTasks() {
+  const req = await fetch(`http://localhost:3000/api/tasks`, {
+    next: { tags: ["a"] }
+  });
+
+  if (!req.ok) {
+    throw new Error("Unable to fetch all available tasks");
+  }
+
+  return await req.json();
+}
 
 export default async function Home() {
   const session = await getServerSession(options);
   const name = session?.user?.name?.split(" ")[0];
 
-  const tasks = await prisma.task.findMany();
+  const tasks = await getAvailableTasks();
 
   return (
     <main className="max-w-2xl mx-auto px-2">
@@ -21,7 +34,7 @@ export default async function Home() {
           </p>
         </div>
         <div className="space-y-3">
-          {tasks.map(task => (
+          {tasks.map((task: _Task) => (
             <Task key={task.id} task={task} />
           ))}
         </div>

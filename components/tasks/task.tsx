@@ -10,16 +10,6 @@ export type TaskProps = {
 };
 
 export default function Task({ task }: TaskProps) {
-  const [mount, setMount] = useState(false);
-
-  useEffect(() => {
-    setMount(true);
-  }, []);
-
-  if (!mount) {
-    return null;
-  }
-
   return (
     <div className="border rounded px-3">
       <div className="py-2 flex flex-row items-center justify-between w-full">

@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import options from "@/app/api/auth/options";
 import errors, { toErrorMap } from "@/lib/errors";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 const schema = z.object({
   name: z
@@ -16,9 +16,18 @@ const schema = z.object({
     })
 });
 
+export async function GET(req: NextRequest) {
+  try {
+    const tasks = await prisma.task.findMany();
+
+    return NextResponse.json(tasks, { status: 200 });
+  } catch (error) {
+    return new NextResponse(errors.message.SERVER, { status: 500 });
+  }
+}
+
 export async function POST(req: NextRequest) {
   const session = await getServerSession(options);
-  const path = req.nextUrl.searchParams.get("path");
 
   const parse = schema.safeParse(await req.json());
 
@@ -41,10 +50,10 @@ export async function POST(req: NextRequest) {
     return new NextResponse(errors.message.SERVER, { status: 500 });
   }
 
-  revalidatePath("/");
+  revalidateTag("a");
 
   return NextResponse.json(
-    { revalidated: true, message: "Task successfully created" },
+    { message: "Task successfully created" },
     { status: 201 }
   );
 }
