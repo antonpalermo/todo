@@ -1,10 +1,11 @@
 import { z } from "zod";
-import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
 
-import options from "../auth/options";
 import prisma from "@/lib/prisma";
+import options from "@/app/api/auth/options";
 import errors, { toErrorMap } from "@/lib/errors";
+import { revalidatePath } from "next/cache";
 
 const schema = z.object({
   name: z
@@ -17,6 +18,7 @@ const schema = z.object({
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(options);
+  const path = req.nextUrl.searchParams.get("path");
 
   const parse = schema.safeParse(await req.json());
 
@@ -33,13 +35,16 @@ export async function POST(req: NextRequest) {
     }
 
     const data = { name: parse.data.name, owner: session.user?.email! };
-    await prisma.task.create({ data });
 
-    return NextResponse.json(
-      { message: "Task successfully created" },
-      { status: 201 }
-    );
+    await prisma.task.create({ data });
   } catch (error) {
     return new NextResponse(errors.message.SERVER, { status: 500 });
   }
+
+  revalidatePath("/");
+
+  return NextResponse.json(
+    { revalidated: true, message: "Task successfully created" },
+    { status: 201 }
+  );
 }

@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 export default function TaskMenu() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
           <MoreHorizontal />
         </Button>

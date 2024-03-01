@@ -1,17 +1,17 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+
 import {
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
   FormItem,
   FormLabel,
+  FormField,
+  FormControl,
   FormMessage
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { modalStore } from "@/lib/stores/modal";
 
 type Task = {
@@ -35,13 +35,15 @@ export default function TaskCreateForm() {
     const response = await request.json();
 
     if (request.status === 400) {
-      response.errors.map((error: any) => {
-        console.log(error);
-        form.setError(error.name, { message: error.message });
-      });
-
+      const errors = response.errors;
+      if (typeof errors === "object" && Array.isArray(errors))
+        errors.map(error =>
+          form.setError(error.field, { message: error.message })
+        );
       return;
     }
+
+    toggle();
   }
 
   return (
