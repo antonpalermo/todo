@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { modalStore } from "@/lib/stores/modal";
+import { ModalAction, modalStore } from "@/lib/stores/modal";
 import { useRouter } from "next/navigation";
 
 type Task = {
@@ -45,7 +45,7 @@ export default function TaskCreateForm() {
       return;
     }
 
-    toggle();
+    toggle(ModalAction.create);
     router.refresh();
   }
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { Task as _Task } from "@prisma/client";
-import { useEffect, useState } from "react";
 
 import TaskMenu from "@/components/tasks/menu";
 

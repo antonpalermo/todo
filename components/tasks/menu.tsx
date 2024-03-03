@@ -11,8 +11,11 @@ import {
   DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { ModalAction, modalStore } from "@/lib/stores/modal";
 
 export default function TaskMenu() {
+  const toggle = modalStore(state => state.toggle);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -23,7 +26,9 @@ export default function TaskMenu() {
       <DropdownMenuContent>
         <DropdownMenuLabel>Options</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => toggle(ModalAction.update)}>
+          Edit
+        </DropdownMenuItem>
         <DropdownMenuItem>Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
