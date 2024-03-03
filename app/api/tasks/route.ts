@@ -1,11 +1,11 @@
 import { z } from "zod";
+import { revalidateTag } from "next/cache";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 import prisma from "@/lib/prisma";
 import options from "@/app/api/auth/options";
 import errors, { toErrorMap } from "@/lib/errors";
-import { revalidateTag } from "next/cache";
 
 const schema = z.object({
   name: z
@@ -16,11 +16,17 @@ const schema = z.object({
     })
 });
 
-export async function GET(req: NextRequest) {
-  try {
-    const tasks = await prisma.task.findMany();
+export async function GET() {
+  const session = await getServerSession();
 
-    return NextResponse.json(tasks, { status: 200 });
+  try {
+    // get all available tasks.
+    const tasks = await prisma.task.findMany({
+      where: { owner: session?.user?.email! }
+    });
+
+    // return all tasks info.
+    return NextResponse.json({ count: tasks.length, tasks }, { status: 200 });
   } catch (error) {
     return new NextResponse(errors.message.SERVER, { status: 500 });
   }
@@ -50,7 +56,7 @@ export async function POST(req: NextRequest) {
     return new NextResponse(errors.message.SERVER, { status: 500 });
   }
 
-  revalidateTag("a");
+  revalidateTag("tasks");
 
   return NextResponse.json(
     { message: "Task successfully created" },

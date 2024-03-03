@@ -13,12 +13,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { modalStore } from "@/lib/stores/modal";
+import { useRouter } from "next/navigation";
 
 type Task = {
   name: "";
 };
 
 export default function TaskCreateForm() {
+  const router = useRouter();
   const toggle = modalStore(state => state.toggle);
   const form = useForm<Task>({
     defaultValues: {
@@ -44,6 +46,7 @@ export default function TaskCreateForm() {
     }
 
     toggle();
+    router.refresh();
   }
 
   return (
