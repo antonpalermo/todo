@@ -13,7 +13,7 @@ export default function Task({ task }: TaskProps) {
     <div className="border rounded px-3">
       <div className="py-2 flex flex-row items-center justify-between w-full">
         <h2>{task.name}</h2>
-        <TaskMenu />
+        <TaskMenu id={task.id} />
       </div>
     </div>
   );
