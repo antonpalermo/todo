@@ -1,15 +1,21 @@
+import { Task } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import { MoreHorizontal } from "lucide-react";
-import { Button } from "../ui/button";
+import { ReactNode, forwardRef } from "react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
-} from "../ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
-import { ReactNode, forwardRef } from "react";
-import Modal from "../modal";
-import DeleteModal from "./modals/delete";
+import Modal from "@/components/modal";
+
+type MenuProps = {
+  task: Task;
+};
 
 type DialogItemProps = {
   triggerChildren: string;
@@ -42,7 +48,21 @@ const DropdownMenuDialogItem = forwardRef<null, DialogItemProps>(
   }
 );
 
-export default function Menu() {
+export default function Menu({ task }: MenuProps) {
+  const router = useRouter();
+
+  async function deleteTask(id: string) {
+    const request = await fetch(`/api/tasks/${id}`, {
+      method: "DELETE"
+    });
+
+    if (!request.ok) {
+      console.log("delete error");
+    }
+
+    router.refresh();
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -64,7 +84,18 @@ export default function Menu() {
           </Modal.Content>
         </DropdownMenuDialogItem>
         <DropdownMenuDialogItem triggerChildren="Delete">
-          <DeleteModal />
+          <Modal.Content>
+            <Modal.Header title="Delete selected task" />
+            Are you sure you want to delete this task?
+            <Modal.Footer>
+              <Modal.Close asChild>
+                <Button variant="ghost">Cancel</Button>
+              </Modal.Close>
+              <Button variant="destructive" onClick={() => deleteTask(task.id)}>
+                Yes
+              </Button>
+            </Modal.Footer>
+          </Modal.Content>
         </DropdownMenuDialogItem>
       </DropdownMenuContent>
     </DropdownMenu>
