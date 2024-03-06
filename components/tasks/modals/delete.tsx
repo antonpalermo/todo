@@ -24,19 +24,16 @@ export default function DeleteModal() {
   }
 
   return (
-    <Modal>
-      <Modal.Button>Delete</Modal.Button>
-      <Modal.Content>
-        <Modal.Header title="Delete Task" />
-        <Modal.Footer>
-          <Modal.Close asChild>
-            <Button variant="ghost">Cancel</Button>
-          </Modal.Close>
-          <Button variant="destructive" onClick={() => handleDeleteRequest()}>
-            Yes
-          </Button>
-        </Modal.Footer>
-      </Modal.Content>
-    </Modal>
+    <Modal.Content>
+      <Modal.Header title="Delete Task" />
+      <Modal.Footer>
+        <Modal.Close asChild>
+          <Button variant="ghost">Cancel</Button>
+        </Modal.Close>
+        <Button variant="destructive" onClick={() => handleDeleteRequest()}>
+          Yes
+        </Button>
+      </Modal.Footer>
+    </Modal.Content>
   );
 }

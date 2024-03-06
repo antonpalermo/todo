@@ -36,7 +36,7 @@ function ModalHeader({
 }) {
   return (
     <DialogHeader>
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle className="font-semibold">{title}</DialogTitle>
       {description && <DialogDescription>{description}</DialogDescription>}
     </DialogHeader>
   );

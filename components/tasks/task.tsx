@@ -2,7 +2,7 @@
 
 import { Task as _Task } from "@prisma/client";
 
-import TaskMenu from "@/components/tasks/menu";
+import Menu from "./menu";
 
 export type TaskProps = {
   task: _Task;
@@ -13,7 +13,7 @@ export default function Task({ task }: TaskProps) {
     <div className="border rounded px-3">
       <div className="py-2 flex flex-row items-center justify-between w-full">
         <h2>{task.name}</h2>
-        <TaskMenu task={task} />
+        <Menu />
       </div>
     </div>
   );
