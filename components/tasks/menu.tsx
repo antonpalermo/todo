@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import Modal from "@/components/modal";
+import TaskForm from "./form";
 
 type MenuProps = {
   task: Task;
@@ -63,6 +64,10 @@ export default function Menu({ task }: MenuProps) {
     router.refresh();
   }
 
+  async function handUpdateTask(data: Pick<Task, "name">) {
+    console.log(data);
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -73,14 +78,8 @@ export default function Menu({ task }: MenuProps) {
       <DropdownMenuContent>
         <DropdownMenuDialogItem triggerChildren="Edit">
           <Modal.Content>
-            <Modal.Header title="Edit task" />
-            Edit selected task.
-            <Modal.Footer className="space-x-3">
-              <Modal.Close asChild>
-                <Button variant="ghost">Cancel</Button>
-              </Modal.Close>
-              <Button variant="destructive">Yes</Button>
-            </Modal.Footer>
+            <Modal.Header title="Edit task" description="Edit selected task." />
+            <TaskForm action="update" onSubmit={handUpdateTask} />
           </Modal.Content>
         </DropdownMenuDialogItem>
         <DropdownMenuDialogItem triggerChildren="Delete">
