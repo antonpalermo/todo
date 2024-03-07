@@ -17,15 +17,18 @@ import { FormBadRequestError } from "@/lib/errors";
 type FormTypes = Pick<Task, "name"> & {};
 
 type TaskFormProps = {
+  defaultValues?: { name: any };
   action: "create" | "update";
   onSubmit: (value: FormTypes) => Promise<void>;
 };
 
-export default function TaskForm({ action, onSubmit }: TaskFormProps) {
+export default function TaskForm({
+  action,
+  onSubmit,
+  defaultValues
+}: TaskFormProps) {
   const form = useForm<FormTypes>({
-    defaultValues: {
-      name: ""
-    }
+    defaultValues
   });
 
   async function handleOnSubmit(data: FormTypes) {

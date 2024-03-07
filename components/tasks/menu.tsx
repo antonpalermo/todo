@@ -75,6 +75,8 @@ export default function Menu({ task }: MenuProps) {
       const { errors } = await request.json();
       throw new FormBadRequestError("Form contains invalid fields", errors);
     }
+
+    router.refresh();
   }
 
   return (
@@ -88,13 +90,20 @@ export default function Menu({ task }: MenuProps) {
         <DropdownMenuDialogItem triggerChildren="Edit">
           <Modal.Content>
             <Modal.Header title="Edit task" description="Edit selected task." />
-            <TaskForm action="update" onSubmit={handUpdateTask} />
+            <TaskForm
+              action="update"
+              onSubmit={handUpdateTask}
+              defaultValues={{ name: task.name }}
+            />
           </Modal.Content>
         </DropdownMenuDialogItem>
         <DropdownMenuDialogItem triggerChildren="Delete">
           <Modal.Content>
-            <Modal.Header title="Delete selected task" />
-            Are you sure you want to delete this task?
+            <Modal.Header
+              title="Delete task"
+              description="Delete selected task."
+            />
+            Are you sure? This action is irreversible.
             <Modal.Footer>
               <Modal.Close asChild>
                 <Button variant="ghost">Cancel</Button>
