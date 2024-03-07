@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Modal from "../modal";
+import { FormBadRequestError } from "@/lib/errors";
 
 type FormTypes = Pick<Task, "name"> & {};
 
@@ -30,8 +31,17 @@ export default function TaskForm({ action, onSubmit }: TaskFormProps) {
   async function handleOnSubmit(data: FormTypes) {
     try {
       await onSubmit(data);
-    } catch (error) {
-      console.log("error from task form", error);
+    } catch (error: unknown) {
+      if (error instanceof FormBadRequestError) {
+        error.errors.map(error =>
+          // TODO: since we are only using one fields for this form
+          // we can hack it by passing the name to setError function
+          // safly.
+
+          // If multiple fields we need to change this "name" to the return
+          form.setError(error.field, { message: error.message })
+        );
+      }
     }
   }
 

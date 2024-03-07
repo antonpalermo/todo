@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 
 import Modal from "@/components/modal";
 import TaskForm from "./form";
+import { FormBadRequestError } from "@/lib/errors";
 
 type MenuProps = {
   task: Task;
@@ -65,7 +66,15 @@ export default function Menu({ task }: MenuProps) {
   }
 
   async function handUpdateTask(data: Pick<Task, "name">) {
-    console.log(data);
+    const request = await fetch(`/api/tasks/${task.id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data)
+    });
+
+    if (request.status === 400) {
+      const { errors } = await request.json();
+      throw new FormBadRequestError("Form contains invalid fields", errors);
+    }
   }
 
   return (
