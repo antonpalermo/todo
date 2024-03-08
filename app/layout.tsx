@@ -1,4 +1,4 @@
-import "./globals.css";
+import "@/app/globals.css";
 import type { Metadata } from "next";
 
 import { Inter } from "next/font/google";
@@ -7,7 +7,6 @@ import { getServerSession } from "next-auth";
 
 import Navbar from "@/components/navbar";
 import SessionProvider from "@/components/providers/session";
-import TaskCreateDialog from "@/components/tasks/create-dialog";
 
 import options from "@/app/api/auth/options";
 
@@ -31,7 +30,6 @@ export default async function RootLayout({
         <body className={inter.className}>
           <Toaster />
           <Navbar />
-          <TaskCreateDialog />
           {children}
         </body>
       </SessionProvider>
