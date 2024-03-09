@@ -2,6 +2,7 @@ import { Task } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { MoreHorizontal } from "lucide-react";
 import { ReactNode, forwardRef, useState } from "react";
+import * as DialogPremitive from "@radix-ui/react-dialog";
 
 import {
   DropdownMenu,
@@ -56,6 +57,8 @@ const DropdownMenuDialogItem = forwardRef<null, DialogItemProps>(
     );
   }
 );
+
+DropdownMenuDialogItem.displayName = DialogPremitive.Root.displayName;
 
 export default function Menu({ task }: MenuProps) {
   const router = useRouter();

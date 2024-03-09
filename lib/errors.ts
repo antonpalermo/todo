@@ -28,4 +28,6 @@ export class FormBadRequestError extends Error {
   }
 }
 
-export default { message, toErrorMap };
+const defaultObject = { message, toErrorMap };
+
+export default defaultObject;
