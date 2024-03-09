@@ -1,7 +1,7 @@
 import { Task } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { MoreHorizontal } from "lucide-react";
-import { ReactNode, forwardRef } from "react";
+import { ReactNode, forwardRef, useState } from "react";
 
 import {
   DropdownMenu,
@@ -23,15 +23,22 @@ type DialogItemProps = {
   triggerChildren: string;
   children: ReactNode;
   onSelect?: (event?: Event) => void;
+  open?: boolean;
   onOpenChange?: (val: boolean) => void;
 };
 
 const DropdownMenuDialogItem = forwardRef<null, DialogItemProps>(
   (props, forwardedRef) => {
-    const { triggerChildren, children, onSelect, onOpenChange, ...itemProps } =
-      props;
+    const {
+      triggerChildren,
+      children,
+      onSelect,
+      open,
+      onOpenChange,
+      ...itemProps
+    } = props;
     return (
-      <Modal onOpenChange={onOpenChange}>
+      <Modal open={open} onOpenChange={onOpenChange}>
         <Modal.Button asChild>
           <DropdownMenuItem
             {...itemProps}
@@ -53,6 +60,9 @@ const DropdownMenuDialogItem = forwardRef<null, DialogItemProps>(
 export default function Menu({ task }: MenuProps) {
   const router = useRouter();
 
+  const [editModalState, setEditModalState] = useState(false);
+  const [deleteModalState, setDeleteModalState] = useState(false);
+
   async function deleteTask(id: string) {
     const request = await fetch(`/api/tasks/${id}`, {
       method: "DELETE"
@@ -62,6 +72,7 @@ export default function Menu({ task }: MenuProps) {
       console.log("delete error");
     }
 
+    setDeleteModalState(false);
     router.refresh();
   }
 
@@ -76,6 +87,7 @@ export default function Menu({ task }: MenuProps) {
       throw new FormBadRequestError("Form contains invalid fields", errors);
     }
 
+    setEditModalState(false);
     router.refresh();
   }
 
@@ -87,7 +99,11 @@ export default function Menu({ task }: MenuProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuDialogItem triggerChildren="Edit">
+        <DropdownMenuDialogItem
+          open={editModalState}
+          onOpenChange={setEditModalState}
+          triggerChildren="Edit"
+        >
           <Modal.Content>
             <Modal.Header title="Edit task" description="Edit selected task." />
             <TaskForm
@@ -97,7 +113,11 @@ export default function Menu({ task }: MenuProps) {
             />
           </Modal.Content>
         </DropdownMenuDialogItem>
-        <DropdownMenuDialogItem triggerChildren="Delete">
+        <DropdownMenuDialogItem
+          open={deleteModalState}
+          onOpenChange={setDeleteModalState}
+          triggerChildren="Delete"
+        >
           <Modal.Content>
             <Modal.Header
               title="Delete task"
