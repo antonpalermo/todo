@@ -1,12 +1,16 @@
-import Modal from "@/components/modal";
-import { Button } from "@/components/ui/button";
-import TaskForm from "../form";
 import { Task } from "@prisma/client";
-import { FormBadRequestError } from "@/lib/errors";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
+import { FormBadRequestError } from "@/lib/errors";
+
+import Modal from "@/components/modal";
+import TaskForm from "@/components/tasks/form";
 
 export default function CreateModal() {
   const router = useRouter();
+  const [createModalState, setCreateModalState] = useState(false);
 
   async function handleSubmit(data: Pick<Task, "name">) {
     const request = await fetch("/api/tasks", {
@@ -19,11 +23,12 @@ export default function CreateModal() {
       throw new FormBadRequestError("Form contains invalid fields", errors);
     }
 
+    setCreateModalState(false);
     router.refresh();
   }
 
   return (
-    <Modal>
+    <Modal open={createModalState} onOpenChange={setCreateModalState}>
       <Modal.Button asChild>
         <Button>Create</Button>
       </Modal.Button>
