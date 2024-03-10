@@ -12,7 +12,7 @@ export default async function Home() {
   const { tasks, count } = await getAvailableTasks();
 
   async function getAvailableTasks() {
-    const request = await fetch("http://localhost:3000/api/tasks", {
+    const request = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/tasks`, {
       next: { revalidate: 3600, tags: ["tasks"] }
     });
 
