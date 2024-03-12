@@ -21,7 +21,7 @@ export default function Task({ task }: TaskProps) {
     try {
       const request = await fetch(`/api/tasks/${task.id}`, {
         method: "PATCH",
-        body: JSON.stringify({ complete: true })
+        body: JSON.stringify({ complete: !checked })
       });
 
       if (!request.ok) {
