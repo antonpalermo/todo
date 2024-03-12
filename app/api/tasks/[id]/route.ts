@@ -9,12 +9,8 @@ import prisma from "@/lib/prisma";
 import errors, { toErrorMap } from "@/lib/errors";
 
 const schema = z.object({
-  name: z
-    .string()
-    .refine(data => data.trim() !== "", { message: "Task name is required." })
-    .refine(data => data.length >= 3 || data.trim() === "", {
-      message: "Task name must be at least 3 characters long."
-    })
+  complete: z.boolean().optional(),
+  name: z.string().min(3).optional()
 });
 
 export async function PATCH(
@@ -37,7 +33,7 @@ export async function PATCH(
       );
     }
 
-    const data = { name: parse.data.name };
+    const data = { isComplete: parse.data.complete, name: parse.data.name };
 
     await prisma.task.update({
       where: { id, owner: session.user?.email! },
