@@ -14,6 +14,7 @@ model Task {
   id          String   @id @unique @default(cuid())
   name        String
   owner       String
+  order       Int      @default(autoincrement())
   isComplete  Boolean  @default(false)
   dateCreated DateTime @default(now())
   dateUpdated DateTime @updatedAt
