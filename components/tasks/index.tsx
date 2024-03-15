@@ -7,7 +7,7 @@ import {
   DropResult,
   ResponderProvided,
   Droppable
-} from "react-beautiful-dnd";
+} from "@hello-pangea/dnd";
 
 import Task from "@/components/tasks/task";
 
@@ -15,7 +15,9 @@ export default function Tasks({ tasks }: { tasks: _Task[] }) {
   async function handleOnDragEnd(
     result: DropResult,
     provided: ResponderProvided
-  ) {}
+  ) {
+    
+  }
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -41,6 +43,7 @@ export default function Tasks({ tasks }: { tasks: _Task[] }) {
                 </Draggable>
               );
             })}
+            {provided.placeholder}
           </div>
         )}
       </Droppable>
