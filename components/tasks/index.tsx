@@ -10,13 +10,29 @@ import {
 } from "@hello-pangea/dnd";
 
 import Task from "@/components/tasks/task";
+import { useState } from "react";
 
 export default function Tasks({ tasks }: { tasks: _Task[] }) {
+  const [localTaskState, setLocalTaskState] = useState(tasks);
+
   async function handleOnDragEnd(
     result: DropResult,
     provided: ResponderProvided
   ) {
-    
+    if (!result.destination) {
+      return;
+    }
+
+    // create new array from existing one.
+    const reorderedTasks = Array.from(localTaskState);
+    // get the updated items.
+    const [item] = reorderedTasks.splice(result.source.index, 1);
+    // splice the items and add the updated item
+    reorderedTasks.splice(result.destination.index, 0, item);
+    // update local state.
+    setLocalTaskState(reorderedTasks);
+
+    // update prisma
   }
 
   return (
@@ -28,7 +44,7 @@ export default function Tasks({ tasks }: { tasks: _Task[] }) {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {tasks.map((task: _Task, i: number) => {
+            {localTaskState.map((task: _Task, i: number) => {
               return (
                 <Draggable key={task.id} draggableId={task.id} index={i}>
                   {provided => (
