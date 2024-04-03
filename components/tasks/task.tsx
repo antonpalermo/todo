@@ -38,7 +38,7 @@ export default function Task({ task }: TaskProps) {
   }
 
   return (
-    <div className="border rounded px-3">
+    <div className="border rounded px-3 bg-white">
       <div className="py-2 flex flex-row items-center justify-between w-full">
         <div className="inline-flex items-center justify-start space-x-3">
           <Checkbox checked={checked} onCheckedChange={() => handleChecked()} />

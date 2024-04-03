@@ -23,6 +23,12 @@ export default function Tasks({ tasks }: { tasks: _Task[] }) {
       return;
     }
 
+    if (
+      result.destination.droppableId === result.source.droppableId &&
+      result.destination.index === result.source.index
+    )
+      return;
+
     // create new array from existing one.
     const reorderedTasks = Array.from(localTaskState);
     // get the updated items.
